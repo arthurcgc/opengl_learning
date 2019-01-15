@@ -7,7 +7,7 @@
             "command": "g++",
             "args": [
                 "-g",
-                "teste.cpp",
+                "main.cpp",
                 "-lGL",
                 "-lglut",
                 "-lGLEW",
