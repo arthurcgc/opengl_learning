@@ -1,140 +1,60 @@
-#include <iostream>
-#include <bits/stdc++.h>
-#include <GL/glew.h>
-#include <GL/glut.h>
+#include "../glad/glad.h"
 #include <GLFW/glfw3.h>
-#include <alloca.h>
+#include <iostream>
 
 
-static GLuint CompileShader(GLuint type, const std::string &source)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    GLuint id = glCreateShader(type); 
-    const char *src = &source[0];
-    glShaderSource(id, 1, &src, nullptr);
-    glCompileShader(id);
-
-    int result;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-    if(result == GL_FALSE)
-    {
-        int length;
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char *message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(id, length, &length, message);
-
-        std::cout << message << std::endl;
-    }
-    
-    return id;
+    glViewport(0, 0, width, height);
 }
 
-static int CreateShader(const std::string &vertexShader, const std::string &fragmentShader)
+void processInput(GLFWwindow *window)
 {
-    //program binds vertex and fragment shaders togheter
-    GLuint program = glCreateProgram();
-    // vs = vertex shader
-    GLuint vs =  CompileShader(GL_VERTEX_SHADER, vertexShader); 
-    GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
-
-
-    // attaching shaders to program
-    glAttachShader(program, vs);
-    glAttachShader(program, fs);
-
-    // initializing program
-    glLinkProgram(program);
-    glValidateProgram(program);
-
-    // basically freeig the pointers
-    glDeleteShader(vs);
-    glDeleteShader(fs);
-
-    return program;
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 }
 
-
-int main(int argc, char *argv[])
+int main()
 {
-    // Initialize the library
-    if(!glfwInit())
-        return -1;
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-
-    // create a windowed mode context and its opengl context
-    GLFWwindow *window;
-    window = glfwCreateWindow(1080, 720, "Hello World", nullptr, nullptr);
-
-    // make the window's context current
-    glfwMakeContextCurrent(window);
-
-    if(!window)
+    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    if (window == NULL)
     {
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
-
-
-    if(glewInit()!= GLEW_OK)
-    {
-        std::cout << "error" << std::endl;
-    }
-
-    //defining a buffer that will be used to bind to opengl so that we can draw with it on the screen
-    unsigned int buff1;
-    glGenBuffers(1, &buff1);
-    glBindBuffer(GL_ARRAY_BUFFER, buff1);
-
-    // defining a vector of points that we want to draw, in this case it is a triangle
-    double positions[6] = 
-    {
-        -0.5, -0.5,
-        0.0, 0.5,
-        0.5, 0.5
-    };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_DOUBLE, GL_FALSE, sizeof(double)*2, 0);
-
-
-
-    std::string vertexShader = 
-        "version 330 core\n"
-        "\n"
-        "layout(location = 0) in vec4 position;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = position;\n "
-        "}\n";
-
-    std::string fragmentShader = 
-    "version 330 core\n"
-    "\n"
-    "layout(location = 0) in vec4 color;\n"
-    "void main()\n"
-    "{\n"
-    "   color = vec4(1.0, 0.7, 0.5, 1.0);\n "
-    "}\n";
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }   
 
-    GLuint shader = CreateShader(vertexShader, fragmentShader);
-    glUseProgram(shader);
+    glViewport(0, 0, 800, 600);
 
 
     while(!glfwWindowShouldClose(window))
     {
+        // input
+        processInput(window);
+        //rendering commands
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        /* Swap front and back buffers*/
+        //check and call events and swap the buffers
         glfwSwapBuffers(window);
-
         glfwPollEvents();
+        
     }
 
+
     glfwTerminate();
-    
     return 0;
 }

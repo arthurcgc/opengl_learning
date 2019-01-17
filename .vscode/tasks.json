@@ -8,10 +8,16 @@
             "args": [
                 "-g",
                 "main.cpp",
+                "../glad/glad.c",
                 "-lGL",
                 "-lglut",
                 "-lGLEW",
                 "-lglfw",
+                "-lX11",
+                "-lpthread",
+                "-lXrandr",
+                "-lXi",
+                "-ldl"
             ] , 
             "group": {
                 "kind": "build",
