@@ -2,23 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build maze",
+            "label": "build bspline",
             "type": "shell",
             "command": "g++",
             "args": [
                 "-g",
                 "main.cpp",
-                "../glad/glad.c",
+                "../abstract_spline/abstract_spline.cpp",
+                "bspline.cpp",
+                "../includes/thomas.cpp",
+                "../includes/matriz.c",
+                "-lm",
                 "-lGL",
-                "-lglut",
-                "-lGLEW",
-                "-lglfw",
-                "-lX11",
-                "-lpthread",
-                "-lXrandr",
-                "-lXi",
-                "-ldl"
-            ] , 
+                "-lGLU",
+                "-lglut"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true

@@ -1,4 +1,4 @@
-#include "../glad/glad.h"
+#include "../../glad/glad.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -41,6 +41,20 @@ int main()
     glViewport(0, 0, 800, 600);
 
 
+    float vertices[] = 
+    {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f
+    };  
+
+
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);  
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
     while(!glfwWindowShouldClose(window))
     {
         // input
@@ -51,7 +65,6 @@ int main()
         //check and call events and swap the buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
-        
     }
 
 

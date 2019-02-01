@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build maze",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "triangle.cpp",
+                "../../glad/glad.c",
+                "-lGL",
+                "-lglut",
+                "-lGLEW",
+                "-lglfw",
+                "-lX11",
+                "-lpthread",
+                "-lXrandr",
+                "-lXi",
+                "-ldl"
+            ] , 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

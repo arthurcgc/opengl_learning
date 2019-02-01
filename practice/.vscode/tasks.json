@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build maze",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "main.cpp",
+                "../../glad/glad.c",
+                "-lGL",
+                "-lglut",
+                "-lGLEW",
+                "-lglfw",
+                "-lX11",
+                "-lpthread",
+                "-lXrandr",
+                "-lXi",
+                "-ldl",
+                "init_shortcuts.cpp",
+                "shaders.cpp",
+                "bspline/bspline.cpp",
+                "abstract_spline/abstract_spline.cpp",
+                "includes/matriz.c",
+                "includes/thomas.cpp"
+            ] , 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
