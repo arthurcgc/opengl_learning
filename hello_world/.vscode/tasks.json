@@ -7,8 +7,8 @@
             "command": "g++",
             "args": [
                 "-g",
-                "hello_world.cpp",
-                "../glad/glad.c",
+                "square.cpp",
+                "../../glad/glad.c",
                 "-lGL",
                 "-lglut",
                 "-lGLEW",
